@@ -4,19 +4,23 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        trim: true,
     },
     email: {
         type: String,
+        trim: true,
         required: true,
         unique: true,
     },
     password: {
         type: String,
+        trim: true,
         required: true,
     },
     phoneNumber: {
         type: String,
+        trim: true,
         required: true
     },
     role: {
@@ -24,7 +28,7 @@ const userSchema = new Schema({
         enum: ['student', 'recruiter']
     },
     profile: {
-        bio: { type: String },
+        bio: { type: String, trim: true, },
         skills: [{ type: String }],
         resume: { type: String },
         resumeOriginalName: { type: String },

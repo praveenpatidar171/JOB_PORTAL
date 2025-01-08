@@ -5,20 +5,23 @@ const companySchema = new Schema(
     {
         name: {
             type: String,
+            trim: true,
             required: true,
+            unique: true,
         },
         description: {
             type: String,
+            trim: true,
         },
         website: {
             type: String,
+            trim: true,
         },
         location: {
             type: String,
         },
         logo: {
             type: String,
-            required: true,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
