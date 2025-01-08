@@ -7,6 +7,7 @@ const cors = require('cors');
 const cookie_parser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes')
 const companyRoutes = require('./routes/companyRoutes');
+const jobRoutes = require('./routes/jobRoutes');
 
 
 const PORT = process.env.PORT || 5000;
@@ -27,6 +28,10 @@ app.use(cookie_parser());
 
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/company', companyRoutes);
+app.use('/api/v1/job', jobRoutes);
+
+
+// -------------------------------
 
 app.listen(PORT, () => {
     console.log(`Example app is listning on ${PORT}`);
