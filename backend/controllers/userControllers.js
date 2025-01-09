@@ -10,13 +10,13 @@ const registerUser = asyncHandler(async (req, res) => {
         const { name, email, password, phoneNumber, role } = req.body;
 
         if (!name || !email || !password || !phoneNumber || !role) {
-            return res.status(400).json({ message: "Please send all the fields" });
+            return res.status(400).json({ message: "Please send all the fields", success: false });
         }
 
         const userExist = await User.findOne({ email });
 
         if (userExist) {
-            return res.status(400).json({ message: "Email already used, please sign in" });
+            return res.status(400).json({ message: "Email already used, please sign in", success: false });
         }
         else {
 
@@ -29,10 +29,10 @@ const registerUser = asyncHandler(async (req, res) => {
             const user = await User.create(newUser);
 
             if (user) {
-                return res.status(201).json({ message: 'User created Successfully' });
+                return res.status(201).json({ message: 'User created Successfully', success: true });
             }
             else {
-                return res.status(400).json({ message: "User not registered!!" });
+                return res.status(400).json({ message: "User not registered!!", success: false });
             }
         }
 
@@ -49,19 +49,19 @@ const loginUser = asyncHandler(async (req, res) => {
         const { email, password, role } = req.body;
 
         if (!email || !password || !role) {
-            return res.status(400).json({ message: "Please send all the fileds" });
+            return res.status(400).json({ message: "Please send all the fileds", success: false });
         }
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ message: "User not exist, please sign up" });
+            return res.status(400).json({ message: "User not exist, please sign up", success: false });
         }
         else {
             const compare = await bcrypt.compare(password, user.password);
             if (!compare) {
-                return res.status(400).json({ message: "Wrong credentials, try again" });
+                return res.status(400).json({ message: "Wrong credentials, try again", success: false });
             }
             if (role !== user.role) {
-                return res.status(400).json({ message: 'check your role again' });
+                return res.status(400).json({ message: 'check your role again', success: false });
             }
 
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -74,6 +74,7 @@ const loginUser = asyncHandler(async (req, res) => {
                     phoneNumber: user.phoneNumber,
                     role: user.role,
                     profile: user.profile,
+                    success: true,
                 });
         }
 
