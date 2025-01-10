@@ -4,7 +4,7 @@ dotenv.config();
 const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
-const cookie_parser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes')
 const companyRoutes = require('./routes/companyRoutes');
 const jobRoutes = require('./routes/jobRoutes');
@@ -23,7 +23,7 @@ app.use(cors(
 ));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookie_parser());
+app.use(cookieParser());
 
 // ----------- routes -----------
 

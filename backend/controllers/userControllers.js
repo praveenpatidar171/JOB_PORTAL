@@ -65,7 +65,7 @@ const loginUser = asyncHandler(async (req, res) => {
             }
 
             const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-            return res.status(200).cookie('token', token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'strict' })
+            return res.status(200).cookie('token', token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
                 .json({
                     message: `welcome back ${user.name}`,
                     _id: user._id,
@@ -88,7 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
 const logOut = asyncHandler(async (req, res) => {
 
     try {
-        res.status(200).cookie('token', '', { maxAge: 0 }).json({ message: 'User logged out successfully' });
+        res.status(200).cookie('token', '', { maxAge: 0 }).json({ message: 'User logged out successfully', success: true });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Internal Server Error' });

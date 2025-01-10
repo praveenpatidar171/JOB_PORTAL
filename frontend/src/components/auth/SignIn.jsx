@@ -8,6 +8,10 @@ import { useState } from "react"
 import { toast } from "sonner"
 import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
+import { useDispatch, useSelector } from "react-redux"
+import { setAuthUser, setLoading } from "@/redux/userSlicer"
+import { Loader2 } from "lucide-react"
+
 
 export const SignIn = () => {
 
@@ -16,9 +20,13 @@ export const SignIn = () => {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { loading } = useSelector((store) => store.user);
+
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
+            dispatch(setLoading(true));
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,12 +39,23 @@ export const SignIn = () => {
             const { data } = await axios.post(`${USER_API_END_POINT}/login`, sendData, config);
             if (data.success) {
                 navigate('/');
+                const user = {
+                    _id: data._id,
+                    email: data.email,
+                    name: data.name,
+                    role: data.role,
+                    profile: data.profile,
+                    phoneNumber: data.phoneNumber,
+                }
+                dispatch(setAuthUser(user));
                 toast.success(data.message);
             }
-            console.log(data);
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+        }
+        finally {
+            dispatch(setLoading(false));
         }
 
     }
@@ -65,7 +84,10 @@ export const SignIn = () => {
                         </div>
                     </RadioGroup>
                 </div>
-                <Button type='submit' className='w-full my-4'>SignIn</Button>
+                {
+                    loading ? <Button className='w-full my-4'><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait</Button>
+                        : <Button type='submit' className='w-full my-4'>SignIn</Button>
+                }
                 <span className="font-medium text-sm">Don't have an account? <Link to={'/signup'} className="text-blue-600" >SignUp</Link></span>
             </form>
         </div>

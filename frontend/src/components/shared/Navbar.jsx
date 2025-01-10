@@ -1,12 +1,37 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { Button } from "../ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { LogOut, User2 } from "lucide-react"
+import { useDispatch, useSelector } from "react-redux"
+import { toast } from "sonner"
+import axios from "axios"
+import { USER_API_END_POINT } from "@/utils/constant"
+import { setAuthUser, setLoading } from "@/redux/userSlicer"
 
 export const Navbar = () => {
 
-    const user = false;
+    const { authUser } = useSelector((store) => store.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const logOutHandler = async () => {
+        try {
+            const config = {
+                withCredentials: true,
+            }
+            const { data } = await axios.get(`${USER_API_END_POINT}/logout`, config);
+            if (data.success) {
+                navigate('/signin');
+                dispatch(setAuthUser(null));
+                dispatch(setLoading(false));
+                toast.success(data.message);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
+    }
     return <div className="bg-white">
 
         <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -15,13 +40,13 @@ export const Navbar = () => {
             </div>
             <div className="flex gap-12 items-center">
                 <ul className="flex items-center gap-5 font-medium">
-                    <li><Link>Home</Link></li>
-                    <li><Link>Jobs</Link></li>
-                    <li><Link>Browse</Link></li>
+                    <li><Link to={'/'} >Home</Link></li>
+                    <li><Link to={'/jobs'}>Jobs</Link></li>
+                    <li><Link to={'/browse'}>Browse</Link></li>
                 </ul>
 
                 {
-                    !user ?
+                    !authUser ?
                         <div className="flex items-center gap-2">
                             <Link to={'/signin'}  >
                                 <Button variant="outline" >SignIn</Button>
@@ -45,8 +70,8 @@ export const Navbar = () => {
                                         <AvatarFallback>CN</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <h1 className="font-medium">Praveeen Patidar</h1>
-                                        <h1 className="text-sm text-muted-foreground">I'm a full stack Engineer</h1>
+                                        <h1 className="font-medium">{authUser?.name[0].toUpperCase() + authUser?.name.slice(1)}</h1>
+                                        <h1 className="text-sm text-muted-foreground">{authUser?.profile.bio}</h1>
                                     </div>
                                 </div>
                                 <div className="flex flex-col my-2 text-gray-600">
@@ -56,7 +81,7 @@ export const Navbar = () => {
                                     </div>
                                     <div className="w-fit cursor-pointer flex items-center gap-2">
                                         <LogOut />
-                                        <Button variant="link">Logout</Button>
+                                        <Button onClick={logOutHandler} variant="link">Logout</Button>
                                     </div>
 
                                 </div>

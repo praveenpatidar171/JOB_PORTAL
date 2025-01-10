@@ -8,6 +8,9 @@ import { useState } from "react"
 import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
 import { toast } from "sonner"
+import { setLoading } from "@/redux/userSlicer"
+import { useDispatch, useSelector } from "react-redux"
+import { Loader2 } from "lucide-react"
 
 export const SignUp = () => {
 
@@ -19,10 +22,13 @@ export const SignUp = () => {
     const [role, setRole] = useState('');
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {loading} = useSelector((store) => store.user)
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
+            dispatch(setLoading(true))
             const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -47,6 +53,9 @@ export const SignUp = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
+        }
+        finally {
+            dispatch(setLoading(false));
         }
 
     }
@@ -87,7 +96,9 @@ export const SignUp = () => {
                         <Input accept='image/*' onChange={(e) => setProfile(e.target.files?.[0])} type='file' className='cursor-pointer' />
                     </div>
                 </div>
-                <Button type='submit' className='w-full my-4'>SignUp</Button>
+                {
+                    loading ? <Button className='w-full my-4'><Loader2 className="w-4 h-4 animate-spin" />Please wait</Button> : <Button type='submit' className='w-full my-4'>SignUp</Button>
+                }
                 <span className="font-medium text-sm">Already have an account? <Link to={'/signin'} className="text-blue-600 font-medium" >SignIn</Link></span>
             </form>
         </div>
