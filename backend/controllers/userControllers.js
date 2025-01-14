@@ -2,12 +2,20 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const getDataUri = require('../config/dataUri');
+const cloudinary = require('../config/cloudinary');
 
 const registerUser = asyncHandler(async (req, res) => {
 
     try {
 
         const { name, email, password, phoneNumber, role } = req.body;
+
+        const profilePhoto = req.files.profilePhoto ? req.files.profilePhoto[0] : null;
+
+        const profileUri = getDataUri(profilePhoto);
+
+        const cloudResponse = await cloudinary.uploader.upload(profileUri.content);
 
         if (!name || !email || !password || !phoneNumber || !role) {
             return res.status(400).json({ message: "Please send all the fields", success: false });
@@ -26,9 +34,14 @@ const registerUser = asyncHandler(async (req, res) => {
                 name, email, password: hashedPassword, phoneNumber, role,
             }
 
+
             const user = await User.create(newUser);
 
             if (user) {
+                if (cloudResponse) {
+                    user.profile.profilePhoto = cloudResponse.secure_url;
+                    await user.save();
+                }
                 return res.status(201).json({ message: 'User created Successfully', success: true });
             }
             else {
@@ -100,11 +113,18 @@ const updateProfile = asyncHandler(async (req, res) => {
     try {
 
         const { name, email, bio, phoneNumber, skills } = req.body;
-        const file = req.file;
+
+        const file = req.files.file ? req.files.file[0] : null;
+
+        const fileUri = getDataUri(file);
+
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
 
         // cloudinaryy
+        let skillsArray = [];
         if (skills) {
-            const skillsArray = skills.split(',');
+            skillsArray = skills.split(',');
         }
         const user = await User.findById(req.user._id);
 
@@ -115,12 +135,15 @@ const updateProfile = asyncHandler(async (req, res) => {
         if (bio) user.profile.bio = bio;
         if (skills) user.profile.skills = skillsArray;
 
-        //write logic for resume later
+        //write logic for resume
+        if (cloudResponse) {
+            user.profile.resume = cloudResponse.secure_url;
+            user.profile.resumeOriginalName = file.originalname;
+        }
 
         //saving the updated values 
 
         await user.save();
-
         res.status(200).json({
             message: "User updated successfully",
             _id: user._id,
@@ -129,6 +152,7 @@ const updateProfile = asyncHandler(async (req, res) => {
             phoneNumber: user.phoneNumber,
             role: user.role,
             profile: user.profile,
+            success: true,
         });
 
 

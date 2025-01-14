@@ -32,6 +32,11 @@ export const Navbar = () => {
             toast.error(error.response.data.message);
         }
     }
+
+    const profileHandler = () => {
+
+    }
+
     return <div className="bg-white">
 
         <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -59,15 +64,15 @@ export const Navbar = () => {
                         <Popover className='hover:cursor-pointer'>
                             <PopoverTrigger>
                                 <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                    <AvatarFallback>CN</AvatarFallback>
+                                    <AvatarImage src={authUser?.profile?.profilePhoto} alt="User Image" />
+                                    <AvatarFallback>{authUser ? authUser.name[0].toUpperCase() : 'User'}</AvatarFallback>
                                 </Avatar>
                             </PopoverTrigger>
                             <PopoverContent className="w-80">
                                 <div className="flex gap-4 space-y-2">
                                     <Avatar className='cursor-pointer'>
-                                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                        <AvatarFallback>CN</AvatarFallback>
+                                        <AvatarImage src={authUser?.profile?.profilePhoto} alt="User Image" />
+                                        <AvatarFallback>{authUser ? authUser.name[0].toUpperCase() : 'User'}</AvatarFallback>
                                     </Avatar>
                                     <div>
                                         <h1 className="font-medium">{authUser?.name[0].toUpperCase() + authUser?.name.slice(1)}</h1>
@@ -77,7 +82,7 @@ export const Navbar = () => {
                                 <div className="flex flex-col my-2 text-gray-600">
                                     <div className="w-fit cursor-pointer flex items-center gap-2">
                                         <User2 />
-                                        <Button variant="link">View Profile</Button>
+                                        <Button variant="link"><Link to={'/profile'}>View Profile</Link></Button>
                                     </div>
                                     <div className="w-fit cursor-pointer flex items-center gap-2">
                                         <LogOut />
