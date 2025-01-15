@@ -8,6 +8,7 @@ import { toast } from "sonner"
 import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
 import { setAuthUser, setLoading } from "@/redux/userSlicer"
+import { setAllJobs } from "@/redux/jobSlice"
 
 export const Navbar = () => {
 
@@ -22,9 +23,10 @@ export const Navbar = () => {
             }
             const { data } = await axios.get(`${USER_API_END_POINT}/logout`, config);
             if (data.success) {
-                navigate('/signin');
+                navigate('/');
                 dispatch(setAuthUser(null));
                 dispatch(setLoading(false));
+                dispatch(setAllJobs([]));
                 toast.success(data.message);
             }
         } catch (error) {
@@ -65,18 +67,18 @@ export const Navbar = () => {
                             <PopoverTrigger>
                                 <Avatar>
                                     <AvatarImage src={authUser?.profile?.profilePhoto} alt="User Image" />
-                                    <AvatarFallback>{authUser ? authUser.name[0].toUpperCase() : 'User'}</AvatarFallback>
+                                    <AvatarFallback>{authUser ? authUser.name?.[0].toUpperCase() : 'User'}</AvatarFallback>
                                 </Avatar>
                             </PopoverTrigger>
                             <PopoverContent className="w-80">
                                 <div className="flex gap-4 space-y-2">
                                     <Avatar className='cursor-pointer'>
                                         <AvatarImage src={authUser?.profile?.profilePhoto} alt="User Image" />
-                                        <AvatarFallback>{authUser ? authUser.name[0].toUpperCase() : 'User'}</AvatarFallback>
+                                        <AvatarFallback>{authUser ? authUser.name?.[0].toUpperCase() : 'User'}</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <h1 className="font-medium">{authUser?.name[0].toUpperCase() + authUser?.name.slice(1)}</h1>
-                                        <h1 className="text-sm text-muted-foreground">{authUser?.profile.bio}</h1>
+                                        <h1 className="font-medium">{authUser?.name?.[0].toUpperCase() + authUser?.name?.slice(1)}</h1>
+                                        <h1 className="text-sm text-muted-foreground">{authUser?.profile?.bio}</h1>
                                     </div>
                                 </div>
                                 <div className="flex flex-col my-2 text-gray-600">

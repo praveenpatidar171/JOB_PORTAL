@@ -44,7 +44,7 @@ const getAllJobs = asyncHandler(async (req, res) => {
         } : {};
 
         const jobs = await Job.find(keywords).populate('company').populate('created_by', 'name email').sort({ createdAt: -1 });
-        return res.status(200).json(jobs);
+        return res.status(200).json({ jobs, success: true });
 
     } catch (error) {
         console.error(error);
@@ -54,7 +54,9 @@ const getAllJobs = asyncHandler(async (req, res) => {
 
 const getJobById = asyncHandler(async (req, res) => {
     const jobId = req.params.id;
-    const job = await Job.findById(jobId);
+    const job = await Job.findById(jobId).populate({
+        path: 'applications'
+    });
     if (!job) return res.status(400).json({ message: 'Job not found', success: false });
     return res.status(200).json({ success: true, job });
 });
