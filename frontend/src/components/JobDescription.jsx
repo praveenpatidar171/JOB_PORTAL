@@ -17,7 +17,6 @@ export const JobDescription = () => {
     const { authUser } = useSelector((store) => store.user);
     const isInitiallyApplied = singleJob?.applications?.some((application) => application.applicant === authUser?._id) || false;
     const [isApplied, setIsApplied] = useState(isInitiallyApplied);
-    console.log(isApplied);
 
     const applyJobHandler = async () => {
         try {
@@ -38,7 +37,6 @@ export const JobDescription = () => {
                 dispatch(setSingleJob(updatedSingleJob)); // to update UI
                 toast.success(data?.message);
             }
-            console.log(data?.newApplication);
 
         } catch (error) {
             console.log(error);

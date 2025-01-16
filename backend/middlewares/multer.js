@@ -7,6 +7,7 @@ const upload = multer({ storage });
 const uploadFields = upload.fields([
     { name: 'profilePhoto', maxCount: 1 }, // For profile photo
     { name: 'file', maxCount: 1 }, // For resume file
+    { name: 'logo', maxCount: 1 }, // For company logo
 ]);
 
 module.exports = uploadFields;

@@ -4,11 +4,22 @@ import { HeroSection } from "./HeroSection"
 import { LatestJobs } from "./LatestJobs"
 import { Navbar } from "./shared/Navbar"
 import { useGetAllJobs } from "@/hooks/useGetAllJobs"
+import { useSelector } from "react-redux"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const Home = () => {
 
+    const { authUser } = useSelector((store) => store.user);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (authUser?.role === 'recruiter') {
+            navigate('/admin/companies');
+        }
+    }, [])
+
     useGetAllJobs();
-    
     return <div>
         <Navbar />
         <HeroSection />

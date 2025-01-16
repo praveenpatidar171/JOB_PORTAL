@@ -46,7 +46,6 @@ export const UpdateProfileDialog = ({ open, setOpen }) => {
 
         try {
             setLoading(true);
-            console.log('inputs are', input);
             const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'

@@ -35,10 +35,6 @@ export const Navbar = () => {
         }
     }
 
-    const profileHandler = () => {
-
-    }
-
     return <div className="bg-white">
 
         <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -47,9 +43,19 @@ export const Navbar = () => {
             </div>
             <div className="flex gap-12 items-center">
                 <ul className="flex items-center gap-5 font-medium">
-                    <li><Link to={'/'} >Home</Link></li>
-                    <li><Link to={'/jobs'}>Jobs</Link></li>
-                    <li><Link to={'/browse'}>Browse</Link></li>
+                    {
+                        authUser && authUser?.role === 'student' ?
+                            <>
+                                <li><Link to={'/'} >Home</Link></li>
+                                <li><Link to={'/jobs'}>Jobs</Link></li>
+                                <li><Link to={'/browse'}>Browse</Link></li>
+                            </> :
+                            <>
+                                <li><Link to={'/admin/companies'} >Companies</Link></li>
+                                <li><Link to={'/admin/jobs'}>Jobs</Link></li>
+                            </>
+                    }
+
                 </ul>
 
                 {
@@ -82,10 +88,13 @@ export const Navbar = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col my-2 text-gray-600">
-                                    <div className="w-fit cursor-pointer flex items-center gap-2">
-                                        <User2 />
-                                        <Button variant="link"><Link to={'/profile'}>View Profile</Link></Button>
-                                    </div>
+                                    {
+                                        authUser && authUser?.role === 'student' &&
+                                        <div className="w-fit cursor-pointer flex items-center gap-2">
+                                            <User2 />
+                                            <Button variant="link"><Link to={'/profile'}>View Profile</Link></Button>
+                                        </div>
+                                    }
                                     <div className="w-fit cursor-pointer flex items-center gap-2">
                                         <LogOut />
                                         <Button onClick={logOutHandler} variant="link">Logout</Button>
