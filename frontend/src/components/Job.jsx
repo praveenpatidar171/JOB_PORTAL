@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { Bookmark } from 'lucide-react'
-import { Avatar, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
 
@@ -26,7 +26,8 @@ export const Job = ({ job }) => {
             <div className='flex items-center gap-2 my-2'>
                 <Button variant='outline' size='icon' className='p-6'>
                     <Avatar>
-                        <AvatarImage src='https://img.freepik.com/premium-photo/home-logo_1301603-1367.jpg' />
+                        <AvatarImage src={job?.company?.logo} />
+                        <AvatarFallback>{job ? job?.company?.name?.[0].toUpperCase() : `${job?.company?.name}`}</AvatarFallback>
                     </Avatar>
                 </Button>
                 <div>

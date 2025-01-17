@@ -23,7 +23,7 @@ const createJob = asyncHandler(async (req, res) => {
             created_by: req.user._id,
         });
 
-        res.status(201).json({ message: "New Job created successfully", newJob, status: true })
+        res.status(201).json({ message: "New Job created successfully", newJob, success: true })
 
     } catch (error) {
         console.error(error);
@@ -43,7 +43,7 @@ const getAllJobs = asyncHandler(async (req, res) => {
 
         } : {};
 
-        const jobs = await Job.find(keywords).populate('company').populate('created_by', 'name email').sort({ createdAt: -1 });
+        const jobs = await Job.find(keywords).populate('company').sort({ createdAt: -1 }).populate('created_by', 'name email');
         return res.status(200).json({ jobs, success: true });
 
     } catch (error) {
@@ -55,7 +55,13 @@ const getAllJobs = asyncHandler(async (req, res) => {
 const getJobById = asyncHandler(async (req, res) => {
     const jobId = req.params.id;
     const job = await Job.findById(jobId).populate({
-        path: 'applications'
+        path: 'applications',
+        populate: {
+            path: 'applicant',
+            select: '-password'
+        }
+
+
     });
     if (!job) return res.status(400).json({ message: 'Job not found', success: false });
     return res.status(200).json({ success: true, job });
@@ -63,8 +69,10 @@ const getJobById = asyncHandler(async (req, res) => {
 
 const getJobsPostedByUser = asyncHandler(async (req, res) => {
     try {
-        const jobs = await Job.find({ created_by: req.user._id });
-        return res.status(200).json(jobs);
+        const jobs = await Job.find({ created_by: req.user._id }).sort({ createdAt: -1 }).populate({
+            path: 'company'
+        });
+        return res.status(200).json({ success: true, jobs });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal Server Down" });

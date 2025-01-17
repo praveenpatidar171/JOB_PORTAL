@@ -50,7 +50,7 @@ const applyJob = asyncHandler(async (req, res) => {
 const getApplications = asyncHandler(async (req, res) => {
     try {
 
-        const applications = await Application.find({ applicant: req.user._id }).populate({
+        const applications = await Application.find({ applicant: req.user._id }).sort({ createdAt: -1 }).populate({
             path: 'job',
             options: { sort: { createdAt: -1 } },
             populate: {
@@ -58,8 +58,8 @@ const getApplications = asyncHandler(async (req, res) => {
                 options: { sort: { createdAt: -1 } },
             }
 
-        }).sort({ createdAt: -1 });
-        return res.status(200).json(applications);
+        });
+        return res.status(200).json({ status: true, applications });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal Server Down" });

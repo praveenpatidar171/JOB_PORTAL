@@ -22,7 +22,7 @@ export const CompaniesTable = ({ search }) => {
     return (
         <div>
             <Table>
-                <TableCaption> A list of your registered Companies </TableCaption>
+                <TableCaption>A list of your registered Companies</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead>Logo</TableHead>
@@ -33,7 +33,7 @@ export const CompaniesTable = ({ search }) => {
                 </TableHeader>
                 <TableBody>
                     {
-                        filteredCompanies?.length === 0 ? <TableRow ><TableCell className='text-center text-lg font-medium' colSpan={4}>No companies available at the moment. Please add a company to proceed.</TableCell> </TableRow> :
+                        filteredCompanies?.length === 0 ? <TableRow ><TableCell className='text-center text-lg font-medium' colSpan={4}>No companies available at the moment. Please add a company to proceed.</TableCell></TableRow> :
                             filteredCompanies?.map((company) =>
                                 <TableRow key={company?._id}>
                                     <TableCell>
