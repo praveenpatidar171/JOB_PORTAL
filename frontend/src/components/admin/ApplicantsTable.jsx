@@ -54,7 +54,7 @@ export const ApplicantsTable = () => {
                 <TableBody>
                     {
                         applications?.map((application) =>
-                            <TableRow className='font-semibold'>
+                            <TableRow key={application?._id} className='font-semibold'>
                                 <TableCell>{application?.applicant?.name}</TableCell>
                                 <TableCell>{application?.applicant?.email}</TableCell>
                                 <TableCell>{application?.applicant?.phoneNumber}</TableCell>

@@ -59,7 +59,7 @@ const getApplications = asyncHandler(async (req, res) => {
             }
 
         });
-        return res.status(200).json({ status: true, applications });
+        return res.status(200).json({ success: true, applications });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal Server Down" });

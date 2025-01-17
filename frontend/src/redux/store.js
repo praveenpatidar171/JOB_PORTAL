@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlicer.js';
 import jobReducer from './jobSlice.js';
 import companyReducer from './companySlice.js';
+import applicationSlice from './applicationSlice.js';
 import {
     persistReducer,
     FLUSH,
@@ -14,7 +15,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 
 const persistConfig = {
-    key: 'root',
+    key: 'root1',
     version: 1,
     storage,
 }
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     user: userReducer,
     job: jobReducer,
     company: companyReducer,
+    application: applicationSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

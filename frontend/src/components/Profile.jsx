@@ -8,9 +8,11 @@ import { AppliedJobsTable } from "./AppliedJobsTable"
 import { useState } from "react"
 import { UpdateProfileDialog } from "./UpdateProfileDialog"
 import { useSelector } from "react-redux"
+import { useGetAllAppliedJobsByUser } from "@/hooks/useGetAllAppliedJobsByUser"
 
-const isResume = true
 export const Profile = () => {
+
+    useGetAllAppliedJobsByUser();
 
     const [open, setOpen] = useState(false);
     const { authUser } = useSelector((store) => store.user);
@@ -51,14 +53,16 @@ export const Profile = () => {
             <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label className='text-base font-bold'>Resume</Label>
                 {
-                    isResume ? <a className="text-blue-500 hover:underline cursor-pointer w-full" href={authUser?.profile?.resume} target="_blank">{authUser?.profile?.resumeOriginalName}</a> :
+                    authUser?.profile?.resume ? <a className="text-blue-500 hover:underline cursor-pointer w-full" href={authUser?.profile?.resume} target="_blank">{authUser?.profile?.resumeOriginalName}</a> :
                         <span>NA</span>
                 }
             </div>
         </div>
         <div className="max-w-4xl mx-auto bg-white rounded-2xl">
             <h1 className="font-bold text-lg my-5">Applied Jobs</h1>
-            <AppliedJobsTable />
+            <div className="pb-5">
+                <AppliedJobsTable />
+            </div>
         </div>
         <UpdateProfileDialog open={open} setOpen={setOpen} />
     </div>

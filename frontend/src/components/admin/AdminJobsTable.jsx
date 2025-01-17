@@ -50,11 +50,7 @@ export const AdminJobsTable = ({ search }) => {
                                             <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                                             <PopoverContent className='w-32'>
                                                 <div onClick={() => navigate(`/admin/jobs/${job?._id}/applicants`)} className='flex items-center cursor-pointer'>
-                                                    <Edit2 className='h-3' />
-                                                    <span className='text-sm font-medium text-muted-foreground'>Edit</span>
-                                                </div>
-                                                <div onClick={() => navigate(`/admin/jobs/${job?._id}/applicants`)} className='flex items-center mt-2 cursor-pointer'>
-                                                    <Eye className='h-3'/>
+                                                    <Eye className='h-3' />
                                                     <span className='text-sm font-medium text-muted-foreground'>Applicants</span>
                                                 </div>
                                             </PopoverContent>

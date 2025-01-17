@@ -8,8 +8,6 @@ import { toast } from "sonner"
 import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
 import { setAuthUser, setLoading } from "@/redux/userSlicer"
-import { setAllJobs } from "@/redux/jobSlice"
-
 export const Navbar = () => {
 
     const { authUser } = useSelector((store) => store.user);
@@ -24,10 +22,9 @@ export const Navbar = () => {
             const { data } = await axios.get(`${USER_API_END_POINT}/logout`, config);
             if (data.success) {
                 navigate('/');
+                toast.success(data.message);
                 dispatch(setAuthUser(null));
                 dispatch(setLoading(false));
-                dispatch(setAllJobs([]));
-                toast.success(data.message);
             }
         } catch (error) {
             console.log(error);

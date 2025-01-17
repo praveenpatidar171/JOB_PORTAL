@@ -4,7 +4,7 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { RadioGroup } from "../ui/radio-group"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
@@ -21,7 +21,8 @@ export const SignIn = () => {
     const [role, setRole] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading } = useSelector((store) => store.user);
+    const { loading, authUser } = useSelector((store) => store.user);
+
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -59,6 +60,12 @@ export const SignIn = () => {
         }
 
     }
+
+    useEffect(() => {
+        if (authUser) {
+            navigate('/');
+        }
+    }, []);
     return <div>
         <Navbar />
         <div className="flex justify-center items-center max-w-7x ">

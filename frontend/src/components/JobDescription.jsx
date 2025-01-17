@@ -15,8 +15,8 @@ export const JobDescription = () => {
     const dispatch = useDispatch();
     const { singleJob } = useSelector((store) => store.job);
     const { authUser } = useSelector((store) => store.user);
-    const isInitiallyApplied = singleJob?.applications?.some((application) => application.applicant === authUser?._id) || false;
-    const [isApplied, setIsApplied] = useState(isInitiallyApplied);
+    // const isInitiallyApplied = singleJob?.applications?.some((application) => application.applicant._id === authUser?._id) || false;
+    const [isApplied, setIsApplied] = useState();
 
     const applyJobHandler = async () => {
         try {
@@ -45,15 +45,16 @@ export const JobDescription = () => {
     }
 
     useEffect(() => {
+        console.log('running');
         const fetchSingleJob = async () => {
             try {
                 const config = {
                     withCredentials: true,
                 }
                 const { data } = await axios.get(`${JOBS_API_END_POINT}/get/${jobId}`, config);
-                if (data.success) {
-                    dispatch(setSingleJob(data.job));
-                    setIsApplied(data.job.applications.some((application) => application.applicant === authUser?._id));
+                if (data?.success) {
+                    dispatch(setSingleJob(data?.job));
+                    setIsApplied(data?.job?.applications?.some((application) => application.applicant._id === authUser?._id));
                 }
 
             } catch (error) {

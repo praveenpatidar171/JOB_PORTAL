@@ -39,6 +39,7 @@ const getAllJobs = asyncHandler(async (req, res) => {
             $or: [
                 { title: { $regex: req.query.search, $options: 'i' } },
                 { description: { $regex: req.query.search, $options: 'i' } },
+                { location: { $regex: req.query.search, $options: 'i' } },
             ]
 
         } : {};
