@@ -45,7 +45,6 @@ export const JobDescription = () => {
     }
 
     useEffect(() => {
-        console.log('running');
         const fetchSingleJob = async () => {
             try {
                 const config = {
