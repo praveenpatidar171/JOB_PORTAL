@@ -34,6 +34,7 @@ export const Navbar = () => {
             toast.error(error.response.data.message);
         }
     }
+    console.log('document.cookie:', document.cookie);
     useEffect(() => {
         const token = Cookies.get('token');
         if (token) {
