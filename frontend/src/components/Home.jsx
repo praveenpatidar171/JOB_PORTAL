@@ -20,7 +20,9 @@ export const Home = () => {
             navigate('/admin/companies');
         }
         const token = Cookies.get("token");
-        setToken(token);
+        if (token) {
+            setToken(token);
+        }
     }, [])
     if (token) {
         useGetAllJobs();

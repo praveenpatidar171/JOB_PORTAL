@@ -36,7 +36,9 @@ export const Navbar = () => {
     }
     useEffect(() => {
         const token = Cookies.get("token");
-        setToken(token);
+        if (token) {
+            setToken(token);
+        }
     }, [])
 
     console.log(token);
