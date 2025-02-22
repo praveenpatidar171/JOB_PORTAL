@@ -21,9 +21,6 @@ export const Home = () => {
         }
         const token = Cookies.get("token");
         setToken(token);
-        if (!token) {
-            navigate('/signup');
-        }
     }, [])
     if (token) {
         useGetAllJobs();
