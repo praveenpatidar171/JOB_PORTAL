@@ -35,13 +35,13 @@ export const Navbar = () => {
         }
     }
     useEffect(() => {
-        const token = Cookies.get("token");
+        const token = Cookies.get('token');
         if (token) {
             setToken(token);
         }
+        console.log(token);
     }, [])
 
-    console.log(token);
 
     return <div className="bg-white">
 
