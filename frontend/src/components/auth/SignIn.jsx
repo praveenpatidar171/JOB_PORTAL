@@ -60,12 +60,6 @@ export const SignIn = () => {
         }
 
     }
-
-    useEffect(() => {
-        if (authUser) {
-            navigate('/');
-        }
-    }, []);
     return <div>
         <Navbar />
         <div className="flex justify-center items-center max-w-7x ">
