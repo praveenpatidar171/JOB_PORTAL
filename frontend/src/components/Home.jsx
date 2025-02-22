@@ -5,11 +5,12 @@ import { LatestJobs } from "./LatestJobs"
 import { Navbar } from "./shared/Navbar"
 import { useGetAllJobs } from "@/components/hooks/useGetAllJobs"
 import { useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 export const Home = () => {
 
+    const [token, setToken] = useState();
     const { authUser } = useSelector((store) => store.user);
     const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ export const Home = () => {
             return null;
         }
         const token = getCookie("token");
+        setToken(token);
         if (!token) {
             navigate('/signup');
         }
