@@ -32,8 +32,9 @@ export const Home = () => {
             navigate('/signup');
         }
     }, [])
-
-    useGetAllJobs();
+    if (token) {
+        useGetAllJobs();
+    }
     return <div>
         <Navbar />
         <HeroSection />
