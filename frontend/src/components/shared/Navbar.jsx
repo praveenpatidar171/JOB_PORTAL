@@ -40,7 +40,7 @@ export const Navbar = () => {
             setToken(token);
         }
         console.log(token);
-    }, [])
+    }, [token])
 
 
     return <div className="bg-white">
