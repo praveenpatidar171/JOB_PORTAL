@@ -8,14 +8,11 @@ import { toast } from "sonner"
 import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
 import { setAuthUser, setLoading } from "@/redux/userSlicer"
-import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
 export const Navbar = () => {
 
     const { authUser } = useSelector((store) => store.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [token, setToken] = useState();
 
     const logOutHandler = async () => {
         try {
@@ -34,16 +31,6 @@ export const Navbar = () => {
             toast.error(error.response.data.message);
         }
     }
-    console.log('document.cookie:', document.cookie);
-    useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
-            setToken(token);
-        }
-        console.log(token);
-    }, [token])
-
-
     return <div className="bg-white">
 
         <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
@@ -68,7 +55,7 @@ export const Navbar = () => {
                 </ul>
 
                 {
-                    !authUser || !token ?
+                    !authUser ?
                         <div className="flex items-center gap-2">
                             <Link to={'/signin'}  >
                                 <Button variant="outline" >SignIn</Button>
