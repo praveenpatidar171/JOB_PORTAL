@@ -3,7 +3,7 @@ import { Navbar } from "../shared/Navbar"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { CompaniesTable } from "./CompaniesTable"
-import { useGetAllCompanies } from "@/hooks/useGetAllCompanies"
+import { useGetAllCompanies } from "@/components/hooks/useGetAllCompanies"
 import { useState } from "react"
 
 export const Companies = () => {

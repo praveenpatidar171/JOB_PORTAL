@@ -8,7 +8,7 @@ import { AppliedJobsTable } from "./AppliedJobsTable"
 import { useState } from "react"
 import { UpdateProfileDialog } from "./UpdateProfileDialog"
 import { useSelector } from "react-redux"
-import { useGetAllAppliedJobsByUser } from "@/hooks/useGetAllAppliedJobsByUser"
+import { useGetAllAppliedJobsByUser } from "@/components/hooks/useGetAllAppliedJobsByUser"
 
 export const Profile = () => {
 

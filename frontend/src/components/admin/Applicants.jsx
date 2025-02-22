@@ -1,4 +1,4 @@
-import { useGetSingleJobById } from "@/hooks/useGetSingleJobById"
+import { useGetSingleJobById } from "@/components/hooks/useGetSingleJobById"
 import { Navbar } from "../shared/Navbar"
 import { ApplicantsTable } from "./ApplicantsTable"
 import { useParams } from "react-router-dom"

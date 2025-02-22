@@ -4,7 +4,7 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { useState } from "react"
 import { AdminJobsTable } from "./AdminJobsTable"
-import { useGetAllAdminPostedJobs } from "@/hooks/useGetAllAdminPostedJobs"
+import { useGetAllAdminPostedJobs } from "@/components/hooks/useGetAllAdminPostedJobs"
 
 export const AdminJobs = () => {
 

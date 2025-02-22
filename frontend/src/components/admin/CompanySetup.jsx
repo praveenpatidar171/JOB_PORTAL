@@ -10,7 +10,7 @@ import { COMPANY_API_END_POINT } from "@/utils/constant"
 import { useNavigate, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { setSingleCompany } from "@/redux/companySlice"
-import { useGetCompanyById } from "@/hooks/useGetCompanyById"
+import { useGetCompanyById } from "@/components/hooks/useGetCompanyById"
 
 export const CompanySetup = () => {
 
