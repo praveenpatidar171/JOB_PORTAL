@@ -37,6 +37,7 @@ export const Home = () => {
     if (token) {
         useGetAllJobs();
     }
+    console.log(token);
     return <div>
         <Navbar />
         <HeroSection />
