@@ -9,6 +9,7 @@ import axios from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
 import { setAuthUser, setLoading } from "@/redux/userSlicer"
 import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
 export const Navbar = () => {
 
     const { authUser } = useSelector((store) => store.user);
@@ -34,19 +35,11 @@ export const Navbar = () => {
         }
     }
     useEffect(() => {
-        function getCookie(name) {
-            const cookies = document.cookie.split("; ");
-            for (let cookie of cookies) {
-                const [key, value] = cookie.split("=");
-                if (key === name) {
-                    return decodeURIComponent(value);
-                }
-            }
-            return null;
-        }
-        const token = getCookie("token");
+        const token = Cookies.get("token");
         setToken(token);
     }, [])
+
+    console.log(token);
 
     return <div className="bg-white">
 
